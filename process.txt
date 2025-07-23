@@ -1,0 +1,93 @@
+EDA Textuelle – Étapes structurées pour ton projet Eye of Emergency
+1. Chargement et préparation des données
+Charger le fichier CSV
+
+Supprimer les colonnes inutiles : id, location
+
+Supprimer les valeurs nulles et doublons
+
+Équilibrer les classes (target = 0 et target = 1) si nécessaire (undersampling)
+
+Résultat attendu : un DataFrame df_balanced propre avec les colonnes text, keyword, target
+
+2. Compréhension générale du dataset
+Nombre total de tweets
+
+Répartition de la variable target (proportions 0 vs 1)
+
+Visualisation simple : value_counts() + barplot
+
+3. Analyse des longueurs
+Ajouter colonnes :
+
+char_count = nb de caractères
+
+word_count = nb de mots
+
+Visualiser par classe :
+
+Histogramme ou boxplot de char_count (hue=target)
+
+Histogramme ou boxplot de word_count (hue=target)
+
+Interprétation : les tweets de catastrophe sont-ils plus longs ? plus riches ?
+
+4. Nettoyage léger pour analyse de texte
+Passage en minuscules
+
+Suppression des stopwords
+
+Suppression des ponctuations, emojis, liens, mentions, etc.
+
+5. Analyse des mots fréquents
+Séparer df_0 et df_1 selon la target
+
+Obtenir les mots les plus fréquents (hors stopwords) avec Counter
+
+Afficher :
+
+Tableau (mot + fréquence)
+
+Barplot (top 10 ou 20)
+
+Nuage de mots (WordCloud) pour chaque classe
+
+Interprétation : quels mots sont typiques d’une catastrophe ? d’un usage figuratif ?
+
+6. Analyse des n-grammes (motifs multi-mots)
+Extraire les bigrams et trigrammes avec CountVectorizer(ngram_range=(2,2))
+
+Comparer par classe :
+
+Bigrammes spécifiques aux catastrophes (“forest fire”)
+
+Bigrammes fréquents dans les tweets normaux (“love you”, “party time”)
+
+Interprétation : quelles expressions donnent un contexte clair (vs mots ambigus)
+
+7. Étude de la colonne keyword
+Top keywords
+
+Proportion de target=1 par keyword
+
+Identifier :
+
+Keywords très fiables (ex : “earthquake”)
+
+Keywords ambigus (ex : “fire” utilisé au sens figuré)
+
+Hypothèse : utile comme feature dans le modèle si bien exploité
+
+8. Observation qualitative
+Lire 5-10 tweets de chaque classe
+
+Objectif : voir comment un humain distingue un vrai tweet d’alerte d’un tweet figuratif ou humoristique
+
+Permet d’anticiper les limites du modèle
+
+9. Synthèse
+Ce qu’on a appris sur le langage, la longueur, les mots-clés
+
+Les variables utiles pour la modélisation
+
+Les risques à éviter (mots ambigus, biais de fréquence, données déséquilibrées)
