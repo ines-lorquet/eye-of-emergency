@@ -1,6 +1,11 @@
 import pandas as pd
 import re
-def special_char(char: str, new_column: str, df: pd.DataFrame, df_column: str) -> pd.DataFrame:
+import spacy
+from tqdm.notebook import tqdm
+from nltk.tokenize import RegexpTokenizer
+
+
+def _target_char(char: str, new_column: str, df: pd.DataFrame, df_column: str) -> pd.DataFrame:
     if df_column not in df.columns:
         raise ValueError(f"La colonne '{df_column}' n'existe pas dans le DataFrame.")
     
@@ -33,8 +38,10 @@ def special_char(char: str, new_column: str, df: pd.DataFrame, df_column: str) -
     
     return df_result
 
-import pandas as pd
-import re
+def reorganize_target_char(df: pd.DataFrame):
+    df = _target_char("#", "hashtags", df, "text")
+    df = _target_char("@", "mentions", df, "text")
+    return df
 
 def extract_url(df: pd.DataFrame, text_column: str = "text", url_column: str = "urls") -> pd.DataFrame:
     if url_column not in df.columns:
@@ -63,7 +70,6 @@ def extract_url(df: pd.DataFrame, text_column: str = "text", url_column: str = "
 
     return df
 
-import pandas as pd
 
 def lowercase(df: pd.DataFrame) -> pd.DataFrame:
     df_result = df.copy()
@@ -71,3 +77,24 @@ def lowercase(df: pd.DataFrame) -> pd.DataFrame:
     for col in string_cols:
         df_result[col] = df_result[col].apply(lambda x: x.lower() if isinstance(x, str) else x)
     return df_result
+
+def cleaning_special_char(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
+    nlp = spacy.load("en_core_web_sm")
+    df_result = df.copy()
+    for idx in tqdm(df_result.index, desc="Cleaning text", unit="row"):
+        text = df_result.loc[idx, text_column]
+        if pd.isna(text) or text is None:
+            continue
+        doc = nlp(str(text))
+        tokens = [token.text for token in doc if not token.is_punct and not token.is_space]
+        df_result.loc[idx, text_column] = " ".join(tokens)
+    return df_result
+
+def clean_text(df: pd.DataFrame, text_column: str='text') -> pd.DataFrame:
+    df[text_column] = df[text_column].apply(lambda x: re.sub(r"[^A-Za-z0-9 ]+", " ", str(x)) if pd.notna(x) else x)
+    return df
+
+def tokenize_text(df: pd.DataFrame, text_column: str='text', new_column: str='text_tokenize') -> pd.DataFrame:
+    tokenizer = RegexpTokenizer(r'\w+')
+    df[new_column] = df[text_column].apply(lambda x: tokenizer.tokenize(str(x)) if pd.notna(x) else x)
+    return df
