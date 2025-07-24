@@ -2,7 +2,10 @@ import pandas as pd
 import re
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer, SnowballStemmer, WordNetLemmatizer
+from nltk.stem import SnowballStemmer, WordNetLemmatizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from datetime import datetime
+import os
 
 class TextMining:
     def __init__(self, df: pd.DataFrame, text_column: str = "text", language: str = "english"):
@@ -17,16 +20,16 @@ class TextMining:
 
     def lowercase(self):
         string_cols = self.df.select_dtypes(include=["object", "string"]).columns
+        self.df[string_cols] = self.df[string_cols].fillna("")
         self.df[string_cols] = self.df[string_cols].apply(lambda col: col.str.lower())
         return self
 
     def extract_target_char(self, char: str, new_column: str):
         escaped_char = re.escape(char)
         pattern = f'{escaped_char}([\\w-]+)'
-
         def process_text(text):
             if pd.isna(text):
-                return None, text
+                return '', text
             text = str(text)
             matches = re.findall(pattern, text)
             if matches:
@@ -34,8 +37,7 @@ class TextMining:
                 cleaned = re.sub(r'\s+', ' ', cleaned).strip()
                 return ", ".join(matches), cleaned
             else:
-                return None, text
-
+                return '', text
         results = self.df[self.text_column].apply(process_text)
         self.df[new_column] = results.apply(lambda x: x[0])
         self.df[self.text_column] = results.apply(lambda x: x[1])
@@ -86,6 +88,31 @@ class TextMining:
             lambda tokens: [self.lemmatizer.lemmatize(word) for word in tokens]
         )
         return self
+
+    def vectorize(self, mode: str = "bow", new_column: str = "vector"):
+        if mode not in ["bow", "tfidf"]:
+            raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
+        corpus = self.df[self.text_column].fillna("")
+        if mode == "bow":
+            vectorizer = CountVectorizer()
+        else:
+            vectorizer = TfidfVectorizer()
+        vectors = vectorizer.fit_transform(corpus)
+        self.df[new_column] = list(vectors.toarray())
+        self.vectorizer = vectorizer  
+        return self
+
+    def export_csv(self, name: str = None):
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = os.path.join(root_dir, "data")
+        os.makedirs(data_dir, exist_ok=True)
+        if name is None:
+            timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+            name = f"export_{timestamp}.csv"
+        path = os.path.join(data_dir, name)
+        self.df.to_csv(path, index=False)
+        return path
+
 
     def get_df(self):
         return self.df
