@@ -98,9 +98,12 @@ class TextMining:
         else:
             vectorizer = TfidfVectorizer()
         vectors = vectorizer.fit_transform(corpus)
-        self.df[new_column] = list(vectors.toarray())
+        self.df[new_column] = [row for row in vectors.toarray()]
         self.vectorizer = vectorizer  
         return self
+        # self.df[new_column] = list(vectors.toarray())
+        # self.vectorizer = vectorizer  
+        # return self
 
     def export_csv(self, name: str = None):
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
