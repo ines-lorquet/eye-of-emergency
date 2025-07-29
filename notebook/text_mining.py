@@ -53,8 +53,8 @@ class TextMining:
         )
         return self
 
-    def clean_regex(self):
-        for col in self.df.columns:
+    def clean_regex(self,columns):
+        for col in columns:
             self.df[col] = self.df[col].apply(
                 lambda x: re.sub(r"[^A-Za-z0-9 ]+", " ", str(x)) if pd.notna(x) else x
             )
