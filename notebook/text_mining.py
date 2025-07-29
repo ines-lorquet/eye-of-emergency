@@ -95,8 +95,7 @@ class TextMining:
     def vectorize(self, mode: str = "bow", new_column: str = "key_txt_vector"):
         if mode not in ["bow", "tfidf"]:
             raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
-        
-        # Join token lists into text for vectorizer input
+
         corpus = self.df[self.token_column].apply(lambda tokens: " ".join(tokens) if isinstance(tokens, list) else "")
         
         vectorizer = CountVectorizer() if mode == "bow" else TfidfVectorizer()
