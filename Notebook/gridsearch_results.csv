@@ -1,0 +1,41 @@
+text_column,use_meta,model,best_params,accuracy,recall_1,f1_1
+combined_lemma,False,LogisticRegression,{'clf__C': 0.1},0.7849829351535836,0.7722095671981777,0.7820069204152249
+lemma,False,LogisticRegression,{'clf__C': 1},0.7792946530147895,0.7722095671981777,0.7775229357798165
+clean_text,True,LogisticRegression,{'clf__C': 1},0.7815699658703071,0.7471526195899773,0.7735849056603774
+lemma,True,LogisticRegression,{'clf__C': 1},0.7781569965870307,0.744874715261959,0.7703180212014135
+stemmed,True,LogisticRegression,{'clf__C': 1},0.7781569965870307,0.7403189066059226,0.7692307692307693
+stemmed,False,LogisticRegression,{'clf__C': 0.1},0.7736063708759955,0.744874715261959,0.7667057444314185
+lemma,False,SVM,{'clf__C': 1},0.7713310580204779,0.7494305239179955,0.7660069848661234
+combined_lemma,False,SVM,{'clf__C': 1},0.7724687144482366,0.744874715261959,0.765807962529274
+combined_stemmed,False,LogisticRegression,{'clf__C': 1},0.770193401592719,0.7517084282460137,0.765661252900232
+combined_stemmed,False,SVM,{'clf__C': 10},0.7679180887372014,0.7517084282460137,0.7638888888888888
+combined_lemma,True,LogisticRegression,{'clf__C': 1},0.7713310580204779,0.7403189066059226,0.763807285546416
+clean_text,False,LogisticRegression,{'clf__C': 1},0.7633674630261661,0.7380410022779044,0.7570093457943925
+combined_stemmed,True,LogisticRegression,{'clf__C': 10},0.7565415244596132,0.7357630979498861,0.7511627906976744
+lemma,False,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7610921501706485,0.7175398633257403,0.75
+clean_text,False,SVM,{'clf__C': 1},0.7610921501706485,0.7084282460136674,0.7475961538461539
+stemmed,False,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7565415244596132,0.7198177676537585,0.7470449172576832
+stemmed,False,SVM,{'clf__C': 10},0.7519908987485779,0.7289293849658315,0.745920745920746
+combined_lemma,False,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.757679180887372,0.7084282460136674,0.7449101796407186
+stemmed,True,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7519908987485779,0.6970387243735763,0.7373493975903614
+combined_stemmed,False,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7474402730375427,0.7038724373576309,0.7357142857142858
+stemmed,False,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7588168373151308,0.6583143507972665,0.7316455696202532
+combined_stemmed,False,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7497155858930603,0.6810933940774487,0.7310513447432763
+lemma,True,XGBoost,"{'clf__max_depth': 3, 'clf__n_estimators': 100}",0.7463026166097838,0.6902050113895216,0.7310012062726177
+clean_text,False,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7519908987485779,0.6651480637813212,0.7281795511221946
+lemma,False,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7554038680318543,0.6537585421412301,0.7275031685678074
+combined_stemmed,True,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7383390216154722,0.6947608200455581,0.7261904761904762
+combined_lemma,False,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7519908987485779,0.6583143507972665,0.7261306532663316
+combined_lemma,True,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.732650739476678,0.6879271070615034,0.7199046483909416
+clean_text,True,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7372013651877133,0.6719817767653758,0.7186358099878197
+combined_stemmed,True,SVM,{'clf__C': 10},0.7246871444823664,0.7038724373576309,0.7186046511627907
+stemmed,True,SVM,{'clf__C': 10},0.726962457337884,0.6947608200455581,0.7176470588235294
+clean_text,True,SVM,{'clf__C': 10},0.726962457337884,0.6924829157175398,0.7169811320754716
+lemma,True,SVM,{'clf__C': 10},0.7246871444823664,0.6970387243735763,0.7166276346604216
+combined_lemma,True,SVM,{'clf__C': 10},0.7235494880546075,0.6970387243735763,0.7157894736842105
+clean_text,False,XGBoost,"{'clf__max_depth': 6, 'clf__n_estimators': 100}",0.7372013651877133,0.6492027334851936,0.7116104868913857
+clean_text,True,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7417519908987485,0.6355353075170843,0.710828025477707
+combined_stemmed,True,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7337883959044369,0.6537585421412301,0.7103960396039604
+lemma,True,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7349260523321957,0.6446469248291572,0.7083854818523154
+stemmed,True,RandomForest,"{'clf__max_depth': None, 'clf__n_estimators': 100}",0.7303754266211604,0.6355353075170843,0.7018867924528301
+combined_lemma,True,RandomForest,"{'clf__max_depth': 10, 'clf__n_estimators': 100}",0.7087599544937428,0.683371298405467,0.7009345794392523
