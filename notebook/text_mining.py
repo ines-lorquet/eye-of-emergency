@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer, WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from datetime import datetime
+import joblib
 import os
 
 class TextMining:
@@ -104,6 +105,22 @@ class TextMining:
         # self.df[new_column] = list(vectors.toarray())
         # self.vectorizer = vectorizer  
         # return self
+
+    def get_model(self, name: str):
+        if self.vectorizer is None:
+            raise ValueError("Vectorizer no initialized. Call .vectorize() before .get_model()")
+
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = os.path.join(root_dir, "models")
+        os.makedirs(root_dir, exist_ok=True)
+        
+        timestamp = datetime.now().strftime("%d_%H_%M")
+        filename = f"{name}_{timestamp}.pkl"
+        filepath = os.path.join(data_dir, filename)
+
+        joblib.dump(self.vectorizer, filepath)
+        print(f"Vector saved in : {filepath}")
+        return filepath
 
     def export_csv(self, name: str = None):
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
