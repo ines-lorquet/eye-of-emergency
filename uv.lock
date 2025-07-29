@@ -784,6 +784,7 @@ dependencies = [
     { name = "seaborn" },
     { name = "spacy" },
     { name = "tqdm" },
+    { name = "xgboost" },
 ]
 
 [package.metadata]
@@ -803,6 +804,7 @@ requires-dist = [
     { name = "seaborn", specifier = ">=0.13.2" },
     { name = "spacy", specifier = ">=3.8.7" },
     { name = "tqdm", specifier = ">=4.67.1" },
+    { name = "xgboost", specifier = ">=3.0.2" },
 ]
 
 [[package]]
