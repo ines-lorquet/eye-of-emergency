@@ -59,13 +59,6 @@ class TextMining:
                 lambda x: re.sub(r"[^A-Za-z0-9 ]+", " ", str(x)) if pd.notna(x) else x
             )
         return self
-
-    # def tokenize(self):
-        
-    #     self.df[self.token_column] = self.df[self.text_column].apply(
-    #         lambda x: self.tokenizer.tokenize(str(x)) if pd.notna(x) else []
-    #     )
-    #     return self
     
     def tokenize(self):
         self.df[self.token_column] = self.df.apply(
@@ -99,16 +92,6 @@ class TextMining:
         )
         return self
 
-    # def vectorize(self, mode: str = "bow", new_column: str = "vector"):
-    #     if mode not in ["bow", "tfidf"]:
-    #         raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
-    #     corpus = self.df[self.text_column].fillna("")
-    #     vectorizer = CountVectorizer() if mode == "bow" else TfidfVectorizer()
-    #     vectors = vectorizer.fit_transform(corpus)
-    #     self.df[new_column] = list(vectors.toarray())
-    #     self.vectorizer = vectorizer
-    #     return self
-    
     def vectorize(self, mode: str = "bow", new_column: str = "vector"):
         if mode not in ["bow", "tfidf"]:
             raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
