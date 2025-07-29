@@ -84,27 +84,30 @@ class TextMining:
         )
         return self
 
-    def apply_lemmatizer(self):
-        if self.token_column not in self.df:
+    def apply_lemmatizer(self, corpus):
+        if corpus not in self.df:
             raise ValueError("Tokenisation requise avant lemmatisation.")
-        self.df[self.token_column] = self.df[self.token_column].apply(
+        self.df[corpus] = self.df[corpus].apply(
             lambda tokens: [self.lemmatizer.lemmatize(word) for word in tokens]
         )
         return self
 
-    def vectorize(self, mode: str = "bow", new_column: str = "vector"):
+    def vectorize(self, mode: str = "bow"):
         if mode not in ["bow", "tfidf"]:
             raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
         
-        # Join token lists into text for vectorizer input
+        # Texte transformé en string (ex: tokens -> "mot1 mot2 mot3")
         corpus = self.df[self.token_column].apply(lambda tokens: " ".join(tokens) if isinstance(tokens, list) else "")
         
+        # Vectorisation
         vectorizer = CountVectorizer() if mode == "bow" else TfidfVectorizer()
-        vectors = vectorizer.fit_transform(corpus)
+        X_vectors = vectorizer.fit_transform(corpus).toarray()  # matrice NumPy
         
-        self.df[new_column] = list(vectors.toarray())
+        # Sauvegarde séparée
+        self.X_vectors = X_vectors  # <-- utilisé directement pour le ML
         self.vectorizer = vectorizer
         return self
+
 
     def export_csv(self, name: str = None):
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
