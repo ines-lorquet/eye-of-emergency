@@ -92,7 +92,7 @@ class TextMining:
         )
         return self
 
-    def vectorize(self, mode: str = "bow", new_column: str = "vector"):
+    def vectorize(self, mode: str = "bow", new_column: str = "key_txt_vector"):
         if mode not in ["bow", "tfidf"]:
             raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
         
