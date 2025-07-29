@@ -54,14 +54,24 @@ class TextMining:
         return self
 
     def clean_regex(self):
-        self.df[self.text_column] = self.df[self.text_column].apply(
-            lambda x: re.sub(r"[^A-Za-z0-9 ]+", " ", str(x)) if pd.notna(x) else x
-        )
+        for col in self.df.columns:
+            self.df[col] = self.df[col].apply(
+                lambda x: re.sub(r"[^A-Za-z0-9 ]+", " ", str(x)) if pd.notna(x) else x
+            )
         return self
 
+    # def tokenize(self):
+        
+    #     self.df[self.token_column] = self.df[self.text_column].apply(
+    #         lambda x: self.tokenizer.tokenize(str(x)) if pd.notna(x) else []
+    #     )
+    #     return self
+    
     def tokenize(self):
-        self.df[self.token_column] = self.df[self.text_column].apply(
-            lambda x: self.tokenizer.tokenize(str(x)) if pd.notna(x) else []
+        self.df[self.token_column] = self.df.apply(
+            lambda row: self.tokenizer.tokenize(f"{str(row['text'])} {str(row['hashtags'])}") 
+            if pd.notna(row['text']) or pd.notna(row['hashtags']) else [],
+            axis=1
         )
         return self
 
@@ -89,17 +99,28 @@ class TextMining:
         )
         return self
 
+    # def vectorize(self, mode: str = "bow", new_column: str = "vector"):
+    #     if mode not in ["bow", "tfidf"]:
+    #         raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
+    #     corpus = self.df[self.text_column].fillna("")
+    #     vectorizer = CountVectorizer() if mode == "bow" else TfidfVectorizer()
+    #     vectors = vectorizer.fit_transform(corpus)
+    #     self.df[new_column] = list(vectors.toarray())
+    #     self.vectorizer = vectorizer
+    #     return self
+    
     def vectorize(self, mode: str = "bow", new_column: str = "vector"):
         if mode not in ["bow", "tfidf"]:
             raise ValueError("Mode invalide. Utiliser 'bow' ou 'tfidf'.")
-        corpus = self.df[self.text_column].fillna("")
-        if mode == "bow":
-            vectorizer = CountVectorizer()
-        else:
-            vectorizer = TfidfVectorizer()
+        
+        # Join token lists into text for vectorizer input
+        corpus = self.df[self.token_column].apply(lambda tokens: " ".join(tokens) if isinstance(tokens, list) else "")
+        
+        vectorizer = CountVectorizer() if mode == "bow" else TfidfVectorizer()
         vectors = vectorizer.fit_transform(corpus)
+        
         self.df[new_column] = list(vectors.toarray())
-        self.vectorizer = vectorizer  
+        self.vectorizer = vectorizer
         return self
 
     def export_csv(self, name: str = None):
@@ -112,7 +133,6 @@ class TextMining:
         path = os.path.join(data_dir, name)
         self.df.to_csv(path, index=False)
         return path
-
 
     def get_df(self):
         return self.df
