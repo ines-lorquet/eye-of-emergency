@@ -9,7 +9,7 @@ from datetime import datetime
 import os
 
 class TextMining:
-    def __init__(self, df: pd.DataFrame, text_column: str = "text", language: str = "english"):
+    def __init__(self, df: pd.DataFrame, text_column: str = "text", language: str = "english", tokens_column="tokens"):
         self.df = df.copy()
         self.text_column = text_column
         self.language = language
@@ -17,7 +17,7 @@ class TextMining:
         self.stop_words = set(stopwords.words(language))
         self.stemmer = SnowballStemmer(language)
         self.lemmatizer = WordNetLemmatizer()
-        self.token_column = "tokens"
+        self.token_column = tokens_column
 
     def lowercase(self):
         self.df[self.text_column] = self.df[self.text_column].fillna("").str.lower()
