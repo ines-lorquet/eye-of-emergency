@@ -19,7 +19,6 @@ class TextMining:
         self.lemmatizer = WordNetLemmatizer()
         self.token_column = "tokens"
 
-    # --- Normalisation texte ---
     def lowercase(self):
         self.df[self.text_column] = self.df[self.text_column].fillna("").str.lower()
         return self
